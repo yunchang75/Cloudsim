@@ -1,0 +1,107 @@
+clear all
+clc
+duilie=rand(1,16000);
+c1=0.6;
+c2=0.9;
+c3=0.98;
+c4=1;
+c=[c1,c2,c3,c4];
+dl_youxian=zeros(1,16000);
+duilie_ch=[];
+for i=1:16000
+  if duilie(i)<c1
+    duilie_ch=[duilie_ch,duilie(i)];
+  elseif duilie(i)<c2
+    duilie_ch=[duilie_ch,duilie(i),duilie(i)];
+  elseif duilie(i)<c3
+    duilie_ch=[duilie_ch,duilie(i),duilie(i),duilie(i)];
+   else
+     duilie_ch=[duilie_ch,duilie(i),duilie(i),duilie(i),duilie(i)];
+   end
+end
+duilie=duilie_ch(1:16000);   
+for i=1:16000
+  if duilie(i)<c1
+    dl_youxian(i)=1;
+  elseif duilie(i)<c2
+    dl_youxian(i)=2;
+  elseif duilie(i)<c3
+    dl_youxian(i)=3;
+  else
+     dl_youxian(i)=4;
+  end
+end  
+  degndai=duilie(1:16);
+  dd_youxian=dl_youxian(1:16);
+  lunshu=length(duilie)/16;
+  yuan_leiji=zeros(1,16);
+  figure
+  for i=1:lunshu-1
+    shuru=duilie(i*16+1:i*16+16);
+	sr_youxian=dl_youxian(i*16+1:i*16+16);
+	xin_leiji=yuan_leiji;
+	sr_leiji=zeros(1,16);
+	xin_leiji=[xin_leiji,sr_leiji];
+	cixu=zeros(1,32);
+	dengdai=[degndai,shuru];
+	dd_youxian=[dd_youxian,sr_youxian];
+	px=[dengdai;dd_youxian;xin_leiji;cixu];
+	for j=1:32
+	  for k=j+1:32
+	    if px(2,j)>px(2,k)
+		  temp=px(:,k)
+		  px(:,k)=px(:,j);
+		  px(:,j)=temp;
+		end
+	  end
+	end
+   px(4,:)=[1:16,1:16];	
+   px(3,:)=px(3,:)+px(4,:);
+   dengdai=px(1,:)
+   dd_youxian=px(2,:)
+   yuan_leiji=px(3,:)
+   cixu=px(4,:)
+   for t=1:16
+	  if px(2,t)==1
+		 plot(i,yuan_leiji(t),'ro')
+		 hold on
+	  elseif px(2,t)==2
+		  plot(i,yuan_leiji(t),'g+')
+		  plot(i,yuan_leiji(t)+1,'g+')
+		  hold on
+	  elseif px(2,t)==3
+		  plot(i,yuan_leiji(t),'b*')
+		  plot(i,yuan_leiji(t)+1,'b*')
+		  plot(i,yuan_leiji(t)+2,'b*')
+		  hold on
+	   elseif px(2,t)==4
+		  plot(i,yuan_leiji(t),'mx')
+		  plot(i,yuan_leiji(t)+1,'mx')
+		  plot(i,yuan_leiji(t)+2,'mx')
+		  plot(i,yuan_leiji(t)+3,'mx')
+		  hold on
+	    end
+	end 	
+    dengdai=px(1,[17:32]);
+    dd_youxian=px(2,[17:32]);
+    yuan_leiji=px(3,[17:32]);
+end
+i=lunshu;
+for t=1:16
+  if px(2,t)==1
+     plot(i,px(3,t),'ro')
+	 hold on
+   elseif px(2,t)==2
+     plot(i,px(3,t),'g+')
+	 hold on
+   elseif px(2,t)==3
+     plot(i,px(3,t),'b*')
+	 hold on
+   elseif px(2,t)==4
+     plot(i,px(3,t),'mx')
+	 hold on
+   end
+end   
+	 
+	
+  

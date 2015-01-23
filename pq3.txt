@@ -1,0 +1,57 @@
+lamb=[4 3.8 3.3 2.1];
+c=[0 0 0 0];
+for jj=1:4
+    c(jj)=poisspdf(1,lamb(jj));
+end 
+cc=sum(c);
+for jj=1:4
+    c(jj)=c(jj)/cc;
+end
+for jj=2:4
+    c(jj)=c(jj-1)+c(jj);
+end
+a=rand(1,200);
+
+t=1:200
+alpha=-0.01;
+w=10;
+xx=exp((alpha+j*w)*t);
+for ii=0:199
+    y(ii+1)=xx(200-ii)
+end
+y=imag(y)*50+50;
+y
+figure(1)
+
+for i=1:200
+   if a(i)<c(1)
+      % plot(i,a(i),'*')
+      % plot(a(i),i,'*')
+      hold on
+      b(i)=4;
+      plot(i,i*b(i)+y(i),'o')
+    elseif a(i)<c(2)
+      % plot(i,a(i),'o')
+      % plot(a(i),i,'o')
+      hold on
+      b(i)=3.8;
+      plot(i,i*b(i)+y(i),'+')
+    elseif a(i)<c(3)
+      % plot(i,a(i),'+')
+      % plot(a(i),i,'+')
+      hold on
+      b(i)=3.3;
+      plot(i,i*b(i)+y(i),'*')
+    else
+      % plot(i,a(i),'x')
+      % plot(a(i),i,'x')
+      hold on
+      b(i)=3;
+      plot(i,i*b(i)+y(i),'+')
+    end
+    grid on
+end
+
+b;
+figure(2)
+plot(b,'*')
